@@ -10,23 +10,26 @@ function init() {
 	
 	
 	let plane = getPlane(30);
-	let pointLight = getPointLight(1);
+	let spotLight = getSpotLight(1);
 	let sphere = getSphere(0.05);
     let boxGrid = getBoxGrid(10, 1.5);
 
 	plane.name = 'plane-1';
 
 	plane.rotation.x = Math.PI/2;
-	pointLight.position.y = 2;
-	pointLight.intensity = 2;
+	spotLight.position.y = 2;
+	spotLight.intensity = 2;
 
 	scene.add(plane);
-	pointLight.add(sphere);
-	scene.add(pointLight);
+	spotLight.add(sphere);
+	scene.add(spotLight);
     scene.add(boxGrid);
 
-	gui.add(pointLight, 'intensity', 0, 10);
-	gui.add(pointLight.position, 'y', 0, 5);
+	gui.add(spotLight, 'intensity', 0, 10);
+    gui.add(spotLight.position, 'x', 0, 20);
+	gui.add(spotLight.position, 'y', 0, 20);
+    gui.add(spotLight.position, 'z', 0, 20);
+    gui.add(spotLight, 'penumbra', 0, 1);
 
 	let camera = new THREE.PerspectiveCamera(
 		45,
@@ -120,6 +123,15 @@ function getSphere(size) {
 
 function getPointLight(intensity) {
 	let light = new THREE.PointLight(0xffffff, intensity);
+    light.castShadow = true;
+    light.shadow.bias = 0.0001;
+    light.shadow.mapSize.width = 2048;
+    light.shadow.mapSize.height = 2048;
+	return light;
+}
+
+function getSpotLight(intensity) {
+	let light = new THREE.SpotLight(0xffffff, intensity);
     light.castShadow = true;
 	return light;
 }
