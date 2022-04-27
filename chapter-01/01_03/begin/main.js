@@ -10,15 +10,20 @@ function init(){
 
     let box = getBox(1, 1, 1);
     let plane = getPlane(20);
+    let PointLight = getPointLight(1);
+    let sphere = getSphere(0.05);
 
     plane.name = 'plane-1';
 
     box.position.y = box.geometry.parameters.height/2;
     plane.rotation.x = Math.PI/2;
+    PointLight.position.y = 2; 
 
 
     scene.add(box);
     scene.add(plane);
+    PointLight.add(sphere);
+    scene.add(PointLight);
 
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 100);
 
@@ -56,6 +61,21 @@ function getBox(w, h, d){
 }
 
 
+function getSphere(size){
+    let geometry = new THREE.SphereGeometry(size, 24, 24 );
+    let material =   new THREE.MeshBasicMaterial({
+        color : 'rgb(255, 255, 255)'
+    });
+
+    let mesh = new THREE.Mesh(
+        geometry,
+        material
+    );
+
+    return mesh;
+}
+
+
 function getPlane(size){
     let geometry = new THREE.PlaneGeometry(size, size);
     let material =   new THREE.MeshPhongMaterial({
@@ -69,6 +89,13 @@ function getPlane(size){
     );
 
     return mesh;
+}
+
+function getPointLight(intesity) {
+
+    let light = new THREE.PointLight(0xffffff, intesity);
+    return light;
+
 }
 
 
