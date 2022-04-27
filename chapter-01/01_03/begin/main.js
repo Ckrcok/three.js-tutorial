@@ -8,22 +8,22 @@ function init() {
 		scene.fog = new THREE.FogExp2(0xffffff, 0.2);
 	}
 	
-	let box = getBox(1, 1, 1);
-	let plane = getPlane(20);
+	
+	let plane = getPlane(30);
 	let pointLight = getPointLight(1);
 	let sphere = getSphere(0.05);
+    let boxGrid = getBoxGrid(10, 1.5);
 
 	plane.name = 'plane-1';
 
-	box.position.y = box.geometry.parameters.height/2;
 	plane.rotation.x = Math.PI/2;
 	pointLight.position.y = 2;
 	pointLight.intensity = 2;
 
-	scene.add(box);
 	scene.add(plane);
 	pointLight.add(sphere);
 	scene.add(pointLight);
+    scene.add(boxGrid);
 
 	gui.add(pointLight, 'intensity', 0, 10);
 	gui.add(pointLight.position, 'y', 0, 5);
@@ -65,6 +65,29 @@ function getBox(w, h, d) {
 	);
     mesh.castShadow = true;
 	return mesh;
+}
+
+
+function getBoxGrid(amount, separationMultiplier) {
+    let group = new THREE.Group();
+    for (let i = 0; i < amount; i++) {
+        let obj = getBox(1, 1, 1);
+        obj.position.x = i * separationMultiplier;
+        obj.position.y = obj.geometry.parameters.height/2;
+        group.add(obj);
+        for (let j = 1; j < amount; j++){
+            let obj = getBox (1, 1, 1);
+            obj.position.x = i * separationMultiplier;
+            obj.position.y = obj.geometry.parameters.height/2;
+            obj.position.z = j * separationMultiplier;
+            group.add(obj)
+        }
+    }
+
+    group.position.x = -(separationMultiplier * (amount -1))/2;
+    group.position.z = -(separationMultiplier * (amount -1))/2;
+
+    return group;
 }
 
 function getPlane(size) {
