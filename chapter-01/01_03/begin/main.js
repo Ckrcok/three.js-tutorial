@@ -25,7 +25,10 @@ function init(){
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('webgl').appendChild(renderer.domElement);
-    renderer.render(scene,camera);
+
+    update(renderer, scene, camera);
+    
+    return scene;
 }
 
 function getBox(w, h, d){
@@ -59,5 +62,16 @@ function getPlane(size){
 }
 
 
-init();
+function update ( renderer, scene, camera){
+    renderer.render(
+        scene, 
+        camera,
+    );
+
+    requestAnimationFrame(function(){
+        update(renderer, scene, camera);
+    })
+}
+
+let scene = init();
 
