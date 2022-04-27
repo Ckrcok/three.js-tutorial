@@ -3,7 +3,10 @@
 function init(){
     var scene = new THREE.Scene();
 
-    scene.fog = new THREE.FogExp2(0xffffff, 0.2);
+    let enableFog = false;
+    if (enableFog) {
+        scene.fog = new THREE.FogExp2(0xffffff, 0.2);
+    }
 
     let box = getBox(1, 1, 1);
     let plane = getPlane(20);
@@ -29,7 +32,7 @@ function init(){
 
     var renderer = new THREE.WebGLRenderer();
 
-    renderer.setClearColor('rgb(255,255,255)');
+    renderer.setClearColor('rgb(120, 120, 120)');
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('webgl').appendChild(renderer.domElement);
 
@@ -40,8 +43,8 @@ function init(){
 
 function getBox(w, h, d){
     let geometry = new THREE.BoxGeometry(w, h, d );
-    let material =   new THREE.MeshBasicMaterial({
-        color : 0x00ff00
+    let material =   new THREE.MeshPhongMaterial({
+        color : 'rgb(120, 120, 120)'
     });
 
     let mesh = new THREE.Mesh(
@@ -55,8 +58,8 @@ function getBox(w, h, d){
 
 function getPlane(size){
     let geometry = new THREE.PlaneGeometry(size, size);
-    let material =   new THREE.MeshBasicMaterial({
-        color : 0xff0000 , 
+    let material =   new THREE.MeshPhongMaterial({
+        color : 'rgb(120, 120, 120)' , 
         side : THREE.DoubleSide
     });
 
