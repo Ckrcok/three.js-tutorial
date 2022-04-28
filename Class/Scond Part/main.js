@@ -3,10 +3,10 @@ function init() {
 	let gui = new dat.GUI();
 
 	// initialize objects
-	let sphereMaterial = getMaterial('phong', 'rgb(255, 255, 255)');
+	let sphereMaterial = getMaterial('standard', 'rgb(255, 255, 255)');
 	let sphere = getSphere(sphereMaterial, 1, 24);
 
-	let planeMaterial = getMaterial('phong', 'rgb(255, 255, 255)');
+	let planeMaterial = getMaterial('standard', 'rgb(255, 255, 255)');
 	let plane = getPlane(planeMaterial, 30);
 
 	let lightLeft = getSpotLight(1, 'rgb(255, 220, 180)');
@@ -40,8 +40,10 @@ function init() {
 	folder2.add(lightRight.position, 'z', -5, 15);
 
 	let folder3 = gui.addFolder('materials');
-	folder3.add(sphereMaterial, 'shininess', 0, 1000);
-	folder3.add(planeMaterial, 'shininess', 0, 1000);
+	folder3.add(sphereMaterial, 'roughness', 0, 1);
+	folder3.add(planeMaterial, 'roughness', 0, 1);
+	folder3.add(sphereMaterial, 'metalness', 0, 1);
+	folder3.add(planeMaterial, 'metalness', 0, 1);
 	folder3.open();
 
 	
