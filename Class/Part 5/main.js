@@ -42,6 +42,8 @@ function init() {
 		particaleMaterial
 	);
 
+	particalSystem.name = 'particalSystem';
+
 	scene.add(particalSystem);
 
 	// renderer
@@ -64,6 +66,29 @@ function update(renderer, scene, camera, controls) {
 	controls.update();
 	renderer.render(scene, camera);
 	
+	let particalSystem =  scene.getObjectByName('particalSystem');
+	particalSystem.rotation.z += 0.0009;
+	particalSystem.geometry.vertices.forEach(particle => {
+		particle.x += (Math.random()-1) * 0.1 ;
+		particle.y += (Math.random()- 0.75)  * 0.1 ;
+		particle.z += (Math.random()) * 0.1 ;
+
+		if (particle.x < -50) {
+			particle.x = 50;
+		}
+		if (particle.y < -50) {
+			particle.y = 50;
+		}
+		if (particle.z < -50) {
+			particle.z = 50;
+		}
+		if (particle.z > 50) {
+			particle.z = -50;
+		}
+	})
+
+	particalSystem.geometry.verticesNeedUpdate = true;
+
 	requestAnimationFrame(function() {
 		update(renderer, scene, camera, controls);
 	});
