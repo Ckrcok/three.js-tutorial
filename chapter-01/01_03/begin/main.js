@@ -14,11 +14,15 @@ function init() {
 	let sphere = getSphere(0.05);
     let boxGrid = getBoxGrid(10, 1.5);
     let helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+    let ambientLight = getAmbientLight(1);
+
 
 	plane.name = 'plane-1';
 
 	plane.rotation.x = Math.PI/2;
-	directionalLight.position.y = 2;
+    directionalLight.position.x = 13;
+	directionalLight.position.y = 10;
+    directionalLight.position.z = 10;
 	directionalLight.intensity = 2;
 
 	scene.add(plane);
@@ -26,6 +30,7 @@ function init() {
 	scene.add(directionalLight);
     scene.add(boxGrid);
     scene.add(helper);
+    scene.add(ambientLight);
 
 	gui.add(directionalLight, 'intensity', 0, 10);
     gui.add(directionalLight.position, 'x', 0, 20);
@@ -125,9 +130,7 @@ function getSphere(size) {
 function getPointLight(intensity) {
 	let light = new THREE.PointLight(0xffffff, intensity);
     light.castShadow = true;
-    light.shadow.bias = 0.0001;
-    light.shadow.mapSize.width = 2048;
-    light.shadow.mapSize.height = 2048;
+
 	return light;
 }
 
@@ -145,6 +148,12 @@ function getDirectionalLight(intensity) {
     light.shadow.camera.bottom = -10;
     light.shadow.camera.right = 10;
     light.shadow.camera.top = 10;
+	return light;
+}
+
+function getAmbientLight(intensity) {
+	let light = new THREE.AmbientLight('rgb(10, 30, 50)', intensity);
+
 	return light;
 }
 
