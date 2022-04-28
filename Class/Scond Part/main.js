@@ -28,11 +28,19 @@ function init() {
 	let loader = new THREE.TextureLoader();
 	planeMaterial.map = loader.load('/assets/textures/concrete.jpg');
 	planeMaterial.bumpMap = loader.load('/assets/textures/concrete.jpg');
+	planeMaterial.roughnessMap = loader.load('/assets/textures/concrete.jpg');
+
+
+	sphereMaterial.roughnessMap = loader.load('/assets/textures/fingerprints.jpg');
+
+
 	planeMaterial.bumpScale = 0.01;
+	planeMaterial.metalness= 0.1;
+	planeMaterial.roughness = 0.7;
 
 
 
-	let maps =['map', 'bumpMap'];
+	let maps =['map', 'bumpMap','roughnessMap'];
 
 	maps.forEach(mapName => {
 		let texture =	planeMaterial[mapName];
