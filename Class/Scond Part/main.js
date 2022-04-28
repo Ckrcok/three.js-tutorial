@@ -1,16 +1,16 @@
 function init() {
-	var scene = new THREE.Scene();
-	var gui = new dat.GUI();
+	let scene = new THREE.Scene();
+	let gui = new dat.GUI();
 
 	// initialize objects
-	var sphereMaterial = getMaterial('basic', 'rgb(255, 0, 0)');
-	var sphere = getSphere(sphereMaterial, 1, 24);
+	let sphereMaterial = getMaterial('phong', 'rgb(255, 255, 255)');
+	let sphere = getSphere(sphereMaterial, 1, 24);
 
-	var planeMaterial = getMaterial('basic', 'rgb(0, 0, 255)');
-	var plane = getPlane(planeMaterial, 30);
+	let planeMaterial = getMaterial('phong', 'rgb(255, 255, 255)');
+	let plane = getPlane(planeMaterial, 30);
 
-	var lightLeft = getSpotLight(1, 'rgb(255, 220, 180)');
-	var lightRight = getSpotLight(1, 'rgb(255, 220, 180)');
+	let lightLeft = getSpotLight(1, 'rgb(255, 220, 180)');
+	let lightRight = getSpotLight(1, 'rgb(255, 220, 180)');
 
 	// manipulate objects
 	sphere.position.y = sphere.geometry.parameters.radius;
@@ -27,17 +27,24 @@ function init() {
 	// manipulate materials
 
 	// dat.gui
-	var folder1 = gui.addFolder('light_1');
+	let folder1 = gui.addFolder('light_1');
 	folder1.add(lightLeft, 'intensity', 0, 10);
 	folder1.add(lightLeft.position, 'x', -5, 15);
 	folder1.add(lightLeft.position, 'y', -5, 15);
 	folder1.add(lightLeft.position, 'z', -5, 15);
 
-	var folder2 = gui.addFolder('light_2');
+	let folder2 = gui.addFolder('light_2');
 	folder2.add(lightRight, 'intensity', 0, 10);
 	folder2.add(lightRight.position, 'x', -5, 15);
 	folder2.add(lightRight.position, 'y', -5, 15);
 	folder2.add(lightRight.position, 'z', -5, 15);
+
+	let folder3 = gui.addFolder('materials');
+	folder3.add(sphereMaterial, 'shininess', 0, 1000);
+	folder3.add(planeMaterial, 'shininess', 0, 1000);
+	folder3.open();
+
+	
 
 	// add objects to the scene
 	scene.add(sphere);
@@ -46,7 +53,7 @@ function init() {
 	scene.add(lightRight);
 
 	// camera
-	var camera = new THREE.PerspectiveCamera(
+	let camera = new THREE.PerspectiveCamera(
 		45, // field of view
 		window.innerWidth / window.innerHeight, // aspect ratio
 		1, // near clipping plane
@@ -58,12 +65,12 @@ function init() {
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 	// renderer
-	var renderer = new THREE.WebGLRenderer();
+	let renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.shadowMap.enabled = true;
 	document.getElementById('webgl').appendChild(renderer.domElement);
 	
-	var controls = new THREE.OrbitControls( camera, renderer.domElement );
+	let controls = new THREE.OrbitControls( camera, renderer.domElement );
 	
 	update(renderer, scene, camera, controls);
 
@@ -71,16 +78,16 @@ function init() {
 }
 
 function getSphere(material, size, segments) {
-	var geometry = new THREE.SphereGeometry(size, segments, segments);
-	var obj = new THREE.Mesh(geometry, material);
+	let geometry = new THREE.SphereGeometry(size, segments, segments);
+	let obj = new THREE.Mesh(geometry, material);
 	obj.castShadow = true;
 
 	return obj;
 }
 
 function getMaterial(type, color) {
-	var selectedMaterial;
-	var materialOptions = {
+	let selectedMaterial;
+	let materialOptions = {
 		color: color === undefined ? 'rgb(255, 255, 255)' : color,
 	};
 
@@ -107,22 +114,22 @@ function getMaterial(type, color) {
 
 function getSpotLight(intensity, color) {
 	color = color === undefined ? 'rgb(255, 255, 255)' : color;
-	var light = new THREE.SpotLight(color, intensity);
+	let light = new THREE.SpotLight(color, intensity);
 	light.castShadow = true;
 	light.penumbra = 0.5;
 
 	//Set up shadow properties for the light
-	light.shadow.mapSize.width = 1024;  // default: 512
-	light.shadow.mapSize.height = 1024; // default: 512
+	light.shadow.mapSize.width = 2048;  // default: 512
+	light.shadow.mapSize.height = 2048; // default: 512
 	light.shadow.bias = 0.001;
 
 	return light;
 }
 
 function getPlane(material, size) {
-	var geometry = new THREE.PlaneGeometry(size, size);
+	let geometry = new THREE.PlaneGeometry(size, size);
 	material.side = THREE.DoubleSide;
-	var obj = new THREE.Mesh(geometry, material);
+	let obj = new THREE.Mesh(geometry, material);
 	obj.receiveShadow = true;
 
 	return obj;
@@ -136,4 +143,4 @@ function update(renderer, scene, camera, controls) {
 	});
 }
 
-var scene = init();
+let scene = init();
