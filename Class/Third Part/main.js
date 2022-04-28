@@ -14,7 +14,7 @@ function init() {
 	var clock = new THREE.Clock();
 
 	// initialize objects
-	var objMaterial = getMaterial('standard', 'rgb(255, 255, 255)');
+	var objMaterial = getMaterial('basic', 'rgb(255, 255, 255)');
 
 	var geoTypes = GEO_TYPES;
 
@@ -50,22 +50,22 @@ function init() {
 	scene.background = reflectionCube;
 
 	// manipulate materials
-	var loader = new THREE.TextureLoader();
-	objMaterial.roughnessMap = loader.load('/assets/textures/scratch.jpg');
-	objMaterial.bumpMap = loader.load('/assets/textures/scratch.jpg');
-	objMaterial.bumpScale = 0.01;
-	objMaterial.envMap = reflectionCube;
+	// var loader = new THREE.TextureLoader();
+	// objMaterial.roughnessMap = loader.load('/assets/textures/scratch.jpg');
+	// objMaterial.bumpMap = loader.load('/assets/textures/scratch.jpg');
+	// objMaterial.bumpScale = 0.01;
+	// objMaterial.envMap = reflectionCube;
 
-	objMaterial.roughness = 0.5;
-	objMaterial.metalness = 0.7;
+	// objMaterial.roughness = 0.5;
+	// objMaterial.metalness = 0.7;
 
-	var maps = ['bumpMap', 'roughnessMap'];
-	maps.forEach(function(map) {
-		var texture = objMaterial[map];
-		texture.wrapS = THREE.RepeatWrapping;
-		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set(1, 1);
-	});
+	// var maps = ['bumpMap', 'roughnessMap'];
+	// maps.forEach(function(map) {
+	// 	var texture = objMaterial[map];
+	// 	texture.wrapS = THREE.RepeatWrapping;
+	// 	texture.wrapT = THREE.RepeatWrapping;
+	// 	texture.repeat.set(1, 1);
+	// });
 
 	// add other objects to the scene
 	scene.add(lightLeft);
@@ -143,6 +143,7 @@ function getMaterial(type, color) {
 	var selectedMaterial;
 	var materialOptions = {
 		color: color === undefined ? 'rgb(255, 255, 255)' : color,
+		wireframe: true,
 	};
 
 	switch (type) {
