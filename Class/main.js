@@ -167,7 +167,8 @@ function update(renderer, scene, camera, controls, clock) {
 
     let boxGrid = scene.getObjectByName('boxGrid');
 	boxGrid.children.forEach((child, index) => {
-        child.scale.y = (Math.sin(timeElapsed * 5 + index) +1)/2 + 0.001;
+		let x = timeElapsed * 5 + index;
+        child.scale.y = (noise.simplex2(x ,x) +1)/2 + 0.001;
         child.position.y = child.scale.y/2;
     });
 
