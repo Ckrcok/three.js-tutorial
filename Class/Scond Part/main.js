@@ -25,6 +25,23 @@ function init() {
 	lightRight.position.z = -4;
 
 	// manipulate materials
+	let loader = new THREE.TextureLoader();
+	planeMaterial.map = loader.load('/assets/textures/concrete.jpg');
+	planeMaterial.bumpMap = loader.load('/assets/textures/concrete.jpg');
+	planeMaterial.bumpScale = 0.01;
+
+
+
+	let maps =['map', 'bumpMap'];
+
+	maps.forEach(mapName => {
+		let texture =	planeMaterial[mapName];
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat.set(1.5, 1.5);
+	});
+
+
 
 	// dat.gui
 	let folder1 = gui.addFolder('light_1');
