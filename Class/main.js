@@ -3,10 +3,10 @@ function init() {
 	var gui = new dat.GUI();
     let clock = new THREE.Clock();
 
-	var enableFog = false;
+	var enableFog = true;
 
 	if (enableFog) {
-		scene.fog = new THREE.FogExp2(0xffffff, 0.2);
+		scene.fog = new THREE.FogExp2(0xffffff, 0.009);
 	}
 	
 	var plane = getPlane(100);
@@ -59,6 +59,18 @@ function init() {
 	cameraXRotation.rotation.x = -Math.PI/2;
 	cameraYPosition.position.y = 1 ;
 	cameraZPosition.position.z = 100;
+	
+	new TWEEN.Tween({val:100}).to({val:-50}, 12000).onUpdate(function(){
+		cameraZPosition.position.z = this.val;
+	}).start();
+
+	new TWEEN.Tween({val : -Math.PI/2}).to({val:0}, 6000).delay(1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function(){
+		cameraXRotation.rotation.x = this.val;
+	}).start();
+
+	new TWEEN.Tween({val : 0}).to({val:Math.PI/2}, 6000).delay(1000).easing(TWEEN.Easing.Quadratic.InOut).onUpdate(function(){
+		cameraYRotation.rotation.y = this.val;
+	}).start();
 
 
 	gui.add(cameraZPosition.position, 'z', 0, 100);
@@ -108,7 +120,7 @@ function getBoxGrid(amount, separationMultiplier) {
 			obj.position.z = j * separationMultiplier;
 			group.add(obj);
 		}
-	}
+	};
 
 	group.position.x = -(separationMultiplier * (amount-1))/2;
 	group.position.z = -(separationMultiplier * (amount-1))/2;
@@ -185,18 +197,18 @@ function update(renderer, scene, camera, controls, clock) {
 
     
     controls.update();
+	TWEEN.update();
+
+
     let timeElapsed = clock.getElapsedTime();
-	let cameraZPosition = scene.getObjectByName('cameraZPosition');
-	cameraZPosition.position.z -= 0.25;
-
-	let cameraXRotation = scene.getObjectByName('cameraXRotation');
 
 
+	
+	
 	let cameraZRotation = scene.getObjectByName('cameraZRotation');
 	cameraZRotation.rotation.z = noise.simplex2(timeElapsed * 1.5, timeElapsed * 1.5) * 0.03;
-	if (cameraXRotation.rotation.x < 0 ) {
-		cameraXRotation.rotation.x += 0.007
-	}
+
+
 
     let boxGrid = scene.getObjectByName('boxGrid');
 	boxGrid.children.forEach((child, index) => {
